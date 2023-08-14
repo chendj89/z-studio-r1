@@ -1,0 +1,32 @@
+{
+  "name": "r1",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue2": "^2.2.0",
+    "@vitejs/plugin-vue2-jsx": "^1.1.0",
+    "axios": "^1.4.0",
+    "element-ui": "^2.15.13",
+    "pinia": "^2.1.4",
+    "vue": "^2.7.14",
+    "vue-i18n": "^8.27.2",
+    "vue-router": "^3.5.4",
+    "sortablejs": "^1.15.0",
+    "vue2-ace-editor": "0.0.15",
+    "zjark-ui": "http://172.22.26.230:4873/zjark-ui/-/zjark-ui-3.7.0.tgz",
+    "zjark-web": "http://172.22.26.230:4873/zjark-web/-/zjark-web-3.7.0.tgz"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
+    "sass": "^1.65.1",
+    "unplugin-auto-import": "^0.16.6",
+    "vite": "^4.4.6",
+    "vite-plugin-vue-setup-extend": "^0.4.0"
+  }
+}
