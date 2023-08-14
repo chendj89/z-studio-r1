@@ -14,15 +14,15 @@ Vue.use(VueI18n, { bridge: true })
 // 添加element的国际化配置
 export const i18n = new VueI18n({
   locale: 'zh-cn',
-  fallbackLocale: 'zh-cn'
-  // messages: {
-  //   en: {
-  //     ...enLocale
-  //   },
-  //   'zh-cn': {
-  //     ...zhLocale
-  //   }
-  // }
+  fallbackLocale: 'zh-cn',
+  messages: {
+    en: {
+      ...enLocale
+    },
+    'zh-cn': {
+      ...zhLocale
+    }
+  }
 })
 Vue.prototype.$t = (args) => i18n.tc.call(i18n, args)
 

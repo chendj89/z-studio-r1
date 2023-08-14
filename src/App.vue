@@ -1,31 +1,8 @@
-<script setup name="App2">
-/**
- * @type import('./types').TableConfig
- */
-const tableConfig = {
-  data:[{
-    label:'1',
-    name:'a'
-  },{
-    label:'2',
-    name:'b'
-  }],
-  paging:{
-    pageSizes:[5,12,15,20],
-    currentPage:2
-  }
-}
+<script>
+export default {}
 </script>
 <template>
-  <div>
-    <zj-list :table-config="tableConfig"></zj-list>
-  </div>  
+  <div>{{$t("dashboard")}}</div>
 </template>
 
-<style lang="scss">
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-</style>
+<style lang="scss" scoped></style>
