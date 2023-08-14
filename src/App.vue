@@ -1,8 +1,9 @@
-<script>
-export default {}
-</script>
 <template>
-  <div>{{$t("dashboard")}}</div>
+  <router-view></router-view>
 </template>
+
+<script setup name="App">
+
+</script>
 
 <style lang="scss" scoped></style>

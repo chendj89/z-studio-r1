@@ -6,24 +6,32 @@ import VueI18n from 'vue-i18n'
 import enLocale from 'element-ui/lib/locale/lang/en'
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 import locale from 'element-ui/lib/locale'
+
+import enLang from '@/lang/en.json'
+import zhCnLang from '@/lang/zh-cn.json'
+
 Vue.use(ElementUI, {
   locale: zhLocale
 })
-Vue.use(VueI18n, { bridge: true })
+Vue.use(VueI18n)
 
 // 添加element的国际化配置
 export const i18n = new VueI18n({
+  silentTranslationWarn: true,
   locale: 'zh-cn',
   fallbackLocale: 'zh-cn',
   messages: {
     en: {
-      ...enLocale
+      ...enLocale,
+      ...enLang
     },
     'zh-cn': {
-      ...zhLocale
+      ...zhLocale,
+      ...zhCnLang
     }
   }
 })
+
 Vue.prototype.$t = (args) => i18n.tc.call(i18n, args)
 
 locale.i18n = (key, value) => {

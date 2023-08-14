@@ -13,9 +13,20 @@ export default defineConfig({
     vueJsx(),
     vueSetupExtend(),
     AutoImport({
-      imports: ['vue', 'vue-router', 'pinia'],
+      imports: ['vue', 'vue-router','pinia'],
+      dirs: ['./src/components/**']
     })
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+        @use "@/scss/var.module.scss" as *;
+        @use "@/scss/mixin.scss" as *;
+        `
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
