@@ -2,7 +2,7 @@
   <div class="footer">
     <div class="footer-content">
       <div class="footer-title">联系我们</div>
-      <div class="footer-desc">有问题需要反馈？请通过一下方式联系我们</div>
+      <div class="footer-desc">有问题需要反馈？请通过以下方式联系我们</div>
     </div>
   </div>
 </template>
@@ -15,6 +15,8 @@
   &-content {
     color: #ffffffe6;
     padding: px2rem(93px);
+    max-width: var(--r1-maxWidth);
+    margin: 0 auto;
   }
   &-title {
     font-size: 24px;

@@ -3,6 +3,8 @@
   --r1-theme: #{$theme};
   // 缩放
   --r1-scale: #{$scale};
+  --r1-maxWidth: #{$maxWidth};
+  --r1-safeWidth: #{$safeWidth};
 }
 html,
 body,
@@ -15,7 +17,19 @@ body,
   padding: 0;
 }
 .layout {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  @include flexColumn();
+  &-content {
+    width: px2rem(1400px);
+    margin: 0 auto;
+    flex: 1;
+  }
+}
+.bg {
+  background: #f8f9fd;
+}
+.g {
+  &-btn {
+    user-select: none;
+    cursor: pointer;
+  }
 }

@@ -1,16 +1,27 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
-	base: "/",
-	routes: [
+  base: '/',
+  routes: [
     {
       path: '/',
-      name: 'Home',
-      component: () => import('@/views/home/index.vue')
+      component: () => import('@/views/layout/index.vue'),
+      children: [
+        {
+          path: '',
+          name: 'Home',
+          component: () => import('@/views/home/index.vue')
+        },
+        {
+          path: 'quota',
+          name: 'Quota',
+          component: () => import('@/views/quota/index.vue')
+        }
+      ]
     }
   ]
-});
+})
 
-export default router;
+export default router

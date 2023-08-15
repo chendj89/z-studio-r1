@@ -23,3 +23,9 @@
     @return null;
   }
 }
+
+
+@mixin flexColumn(){
+  display: flex;
+  flex-direction: column;
+}

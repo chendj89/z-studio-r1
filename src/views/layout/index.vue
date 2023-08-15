@@ -2,8 +2,6 @@
   <router-view></router-view>
 </template>
 
-<script setup name="App2">
-
-</script>
+<script setup></script>
 
 <style lang="scss" scoped></style>
