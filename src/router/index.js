@@ -18,6 +18,11 @@ const router = new VueRouter({
           path: 'quota',
           name: 'Quota',
           component: () => import('@/views/quota/index.vue')
+        },
+        {
+          path: 'quotaDetail/:name',
+          name: 'QuotaDetail',
+          component: () => import('@/views/quota/detail.vue')
         }
       ]
     }

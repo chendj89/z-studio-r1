@@ -1,8 +1,7 @@
 <script setup name="Home">
-import VpFooter from '@/components/vpFooter.vue'
-import VpCard from '@/components/vpCard.vue'
-import VpSearch from '@/components/vpSearch.vue'
+import useUserStore from '@/store/modules/user'
 import data from './js/data'
+const userStore = useUserStore()
 </script>
 <template>
   <div class="layout bg">

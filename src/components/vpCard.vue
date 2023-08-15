@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="card-footer">
-      <div class="card-footer-btn">{{ data.href.name }}</div>
+      <div class="card-footer-btn" @click="btn">{{ data.href.name }}</div>
     </div>
   </div>
 </template>
@@ -34,6 +34,11 @@ const props = defineProps({
     default: null
   }
 })
+const ins = getCurrentInstance().proxy
+const btn = () => {
+  console.log('btn')
+  ins.$router.push({ name: 'Quota' })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -49,7 +54,7 @@ const props = defineProps({
   transition: all 0.25s;
   &:hover {
     background-color: var(--r1-theme);
-    color: #FFF8FAFF;
+    color: #fff8faff;
   }
   &-title {
     display: flex;

@@ -1,6 +1,7 @@
 <template>
   <div class="quota bg">
     <div class="quota-content">
+      <!-- 左侧 -->
       <div class="quota-left">
         <el-scrollbar ref="rScrollbar" class="quota-scroll">
           <el-tree
@@ -14,14 +15,26 @@
         </el-scrollbar>
         <div class="quota-group g-btn" @click="groupHandle"></div>
       </div>
-      <div class="quota-right"></div>
+      <!-- 右侧 -->
+      <div class="quota-right">
+        <zj-list
+          class="quota-zjlist"
+          ref="zjListRef"
+          :search-config="rZjList.searchConfig"
+          :table-config="rZjList.tableConfig"
+        >
+        </zj-list>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup name="Quota">
-import { onBeforeUnmount, onMounted } from 'vue'
+const ins = getCurrentInstance().proxy
 
+/**** 左侧菜单 ****/
+import { changeTreeNodeStatus } from '@/utils/tree'
+const rTree = ref(null)
 const tree = ref({
   data: [
     {
@@ -32,6 +45,9 @@ const tree = ref({
           children: [
             {
               label: '三级 1-1-1'
+            },
+            {
+              label: '三级 1-1-2'
             }
           ]
         }
@@ -44,30 +60,84 @@ const tree = ref({
   },
   expand: true
 })
-const rTree = ref(null)
-
 const groupHandle = () => {
   changeTreeNodeStatus(rTree.value.root, tree.value.expand)
   tree.value.expand = !tree.value.expand
 }
-function changeTreeNodeStatus(node, status) {
-  node.expanded = status
-  for (let i = 0; i < node.childNodes.length; i++) {
-    node.childNodes[i].expanded = status
-    if (node.childNodes[i].childNodes.length > 0) {
-      changeTreeNodeStatus(node.childNodes[i], status)
-    }
+
+/**** 添加滚动 ****/
+import { addResizeListener } from '@/utils/resize'
+import { getCurrentInstance, onMounted } from 'vue'
+const rScrollbar = ref(null)
+addResizeListener(() => {
+  rScrollbar.value?.update()
+})
+/**** 表格 ****/
+
+const baseZjList = {
+  searchConfig: {
+    'label-width': '100px',
+    'label-position': 'right',
+    data: [
+      {
+        label: '指标名称',
+        name: '',
+        type: 'input',
+        span: 8
+      }
+    ],
+    buttonSpan: 16,
+    button: {
+      align: 'right'
+    },
+    buttonTextShow: true
+  },
+  tableConfig: {
+    title: '指标信息',
+    selection: false,
+    data: [
+      {
+        label: '指标编码',
+        name: 'a1'
+      },
+      {
+        label: '指标名称',
+        name: 'a2'
+      },
+      {
+        label: '英文名称',
+        name: 'a3'
+      },
+      {
+        label: '操作',
+        name: '',
+        type: 'operation',
+        data: [
+          {
+            label: '查看',
+            name: 'opLook',
+            callback: (...args) => {
+              ins.$router.push({
+                name: 'QuotaDetail',
+                params:{
+                  name:'1'
+                }
+              })
+            }
+          }
+        ]
+      }
+    ]
   }
 }
-const rScrollbar = ref(null)
-const resize = () => {
-  rScrollbar.value?.update()
-}
+const rZjList = ref(baseZjList)
+const zjListRef = ref(null)
 onMounted(() => {
-  window.addEventListener('resize', resize)
-})
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', resize)
+  zjListRef.value.tableData = new Array(6).fill({
+    a1: 'ZJ3489843940',
+    a2: '充填电力单耗',
+    a3: 'Unit consumption of filling power'
+  })
 })
 </script>
 
@@ -75,7 +145,7 @@ onBeforeUnmount(() => {
 .quota {
   $radius: 4px;
   height: 100%;
-  padding-top: 16px;
+  padding: 16px;
   &-scroll {
     height: 100%;
   }
@@ -108,12 +178,30 @@ onBeforeUnmount(() => {
   &-left {
     position: relative;
     width: 264px;
-    margin-left: 16px;
     background-color: #fff;
   }
   &-right {
     position: relative;
     flex: 1;
+  }
+  &-zjlist {
+    &::v-deep(.zj-list-search) {
+      background-color: #fff;
+      padding: 16px 16px 0 16px;
+      border-radius: $radius;
+    }
+    &::v-deep(.zj-table-box) {
+      background-color: #fff;
+      padding: 16px;
+      border-radius: $radius;
+    }
+    &::v-deep(.zj-table-head) {
+      color: #303133;
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 16px;
+      font-weight: bold;
+    }
   }
 }
 </style>
