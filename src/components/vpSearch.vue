@@ -1,7 +1,14 @@
 <script setup name="VpSearch">
+const ins = getCurrentInstance().proxy
 const content = ref('')
 const search = () => {
   if (content.value) {
+    ins.$router.push({
+      name: 'Quota',
+      query: {
+        content: content.value.trim()
+      }
+    })
   }
 }
 </script>

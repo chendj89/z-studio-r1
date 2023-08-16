@@ -12,3 +12,20 @@ export function changeTreeNodeStatus(node, status) {
     }
   }
 }
+
+export function findTreeNodeById(node, id, result = []) {
+  if (node.data && node.data.id == id) {
+    result.push(node);
+    return result;
+  }
+  if (node.childNodes && node.childNodes.length) {
+    for (let i = 0; i < node.childNodes.length; i++) {
+      let childResult = findTreeNodeById(node.childNodes[i], id, result);
+      if (childResult) {
+        childResult.unshift(node);
+        return childResult;
+      }
+    }
+  }
+  return null;
+}

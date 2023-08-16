@@ -36,8 +36,7 @@ const props = defineProps({
 })
 const ins = getCurrentInstance().proxy
 const btn = () => {
-  console.log('btn')
-  ins.$router.push({ name: 'Quota' })
+  ins.$router.push({ name: 'Quota',params:{id:props.data.id} })
 }
 </script>
 

@@ -1,9 +1,5 @@
 <template>
-  <router-view v-slot="{ Component, route }">
-    <keep-alive>
-      <component :is="Component" :key="route.fullPath" />
-    </keep-alive>
-  </router-view>
+  <router-view></router-view>
 </template>
 
 <script setup name="App"></script>
