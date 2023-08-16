@@ -48,3 +48,12 @@ import zjarkWeb from 'zjark-web'
 import 'zjark-web/lib/zjarkWeb.css'
 Vue.use(zjarkWeb)
 zjarkWeb.initWebI18n(i18n)
+
+window.useSafeData = (res, params = {}) => {
+  return new Promise((resolve) => {
+    resolve({
+      data: res.data,
+      status: [200].includes(res.code)
+    })
+  })
+}

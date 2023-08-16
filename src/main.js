@@ -4,7 +4,9 @@ import router from '@/router'
 import { PiniaVuePlugin } from 'pinia'
 import pinia from '@/store'
 import useRouterGuard from './router/guard'
+import { axiosPlugin } from '@/axios/index'
 Vue.use(PiniaVuePlugin)
+Vue.use(axiosPlugin)
 import './init'
 // @ts-ignore
 import scss from '@/scss/alias.module.scss'

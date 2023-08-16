@@ -2,17 +2,17 @@
   <div class="quota bg">
     <div class="quota-content">
       <!-- 左侧 -->
-      <div class="quota-left">
-        <el-scrollbar ref="rScrollbar" class="quota-scroll">
-          <el-tree
-            ref="rTree"
-            :data="tree.data"
-            :props="tree.defaultProps"
-            :expand-on-click-node="false"
-            class="quota-tree"
-          >
-          </el-tree>
-        </el-scrollbar>
+      <div class="quota-left" v-loading="config.leftLoading">
+        <el-tree
+          ref="rTree"
+          :data="tree.data"
+          :props="tree.defaultProps"
+          :expand-on-click-node="false"
+          highlight-current
+          class="quota-tree"
+          @node-click="nodeClick"
+        >
+        </el-tree>
         <div class="quota-group g-btn" @click="groupHandle"></div>
       </div>
       <!-- 右侧 -->
@@ -30,33 +30,19 @@
 </template>
 
 <script setup name="Quota">
+import api from '@/api'
+import { buildTree } from './js/index'
 const ins = getCurrentInstance().proxy
 
 /**** 左侧菜单 ****/
 import { changeTreeNodeStatus } from '@/utils/tree'
+import { readonly, toRaw } from 'vue'
 const rTree = ref(null)
 const tree = ref({
-  data: [
-    {
-      label: '一级 1',
-      children: [
-        {
-          label: '二级 1-1',
-          children: [
-            {
-              label: '三级 1-1-1'
-            },
-            {
-              label: '三级 1-1-2'
-            }
-          ]
-        }
-      ]
-    }
-  ],
+  data: [],
   defaultProps: {
     children: 'children',
-    label: 'label'
+    label: 'name'
   },
   expand: true
 })
@@ -64,14 +50,11 @@ const groupHandle = () => {
   changeTreeNodeStatus(rTree.value.root, tree.value.expand)
   tree.value.expand = !tree.value.expand
 }
+const nodeClick = (data, node, that) => {
+  console.log(data.id)
+  getFoldIdByCatalogId(data.id)
+}
 
-/**** 添加滚动 ****/
-import { addResizeListener } from '@/utils/resize'
-import { getCurrentInstance, onMounted } from 'vue'
-const rScrollbar = ref(null)
-addResizeListener(() => {
-  rScrollbar.value?.update()
-})
 /**** 表格 ****/
 
 const baseZjList = {
@@ -81,9 +64,12 @@ const baseZjList = {
     data: [
       {
         label: '指标名称',
-        name: '',
+        name: 'chineseName',
         type: 'input',
-        span: 8
+        span: 8,
+        extend: {
+          clearable: true
+        }
       }
     ],
     buttonSpan: 16,
@@ -98,15 +84,24 @@ const baseZjList = {
     data: [
       {
         label: '指标编码',
-        name: 'a1'
+        name: 'domainCode',
+        extend: {
+          'show-overflow-tooltip': true
+        }
       },
       {
         label: '指标名称',
-        name: 'a2'
+        name: 'chineseName',
+        extend: {
+          'show-overflow-tooltip': true
+        }
       },
       {
         label: '英文名称',
-        name: 'a3'
+        name: 'englishName',
+        extend: {
+          'show-overflow-tooltip': true
+        }
       },
       {
         label: '操作',
@@ -116,29 +111,177 @@ const baseZjList = {
           {
             label: '查看',
             name: 'opLook',
-            callback: (...args) => {
+            callback: (data) => {
+              console.log(data)
               ins.$router.push({
                 name: 'QuotaDetail',
-                params:{
-                  name:'1'
+                params: {
+                  name: data.domainId
                 }
               })
             }
           }
         ]
       }
-    ]
+    ],
+    http: {
+      url: '/',
+      onBefore: (params) => {
+        // 重置
+        if (Object.keys(params.data).length === 0) {
+          resetPageParams()
+          getPage()
+        } else {
+          // 查询
+          pageParams.value = {
+            ...pageParams.value,
+            ...params.data
+          }
+          getPage()
+        }
+        return false
+      }
+    },
+    onPageSize: (data) => {
+      pageParams.value.currentPage = data.currentPage
+      pageParams.value.pageSize = data.pageSize
+      getPage()
+    },
+    onCurrentPage: (data) => {
+      pageParams.value.currentPage = data.currentPage
+      pageParams.value.pageSize = data.pageSize
+      getPage()
+    }
   }
 }
 const rZjList = ref(baseZjList)
 const zjListRef = ref(null)
 onMounted(() => {
-  zjListRef.value.tableData = new Array(6).fill({
-    a1: 'ZJ3489843940',
-    a2: '充填电力单耗',
-    a3: 'Unit consumption of filling power'
-  })
+  init()
 })
+
+const config = ref({
+  /**
+   * 左侧菜单加载器
+   */
+  leftLoading: false,
+  /**
+   * 临时加载器
+   */
+  CatalogIdLoading: false,
+  /**
+   * 表格加载器
+   */
+  folderIdLoading: false
+})
+const pageData = ref({
+  folderId: ''
+})
+
+/**
+ * 数据管理左边树
+ */
+const catalogManageHandler = () => {
+  return new Promise((resolve) => {
+    if (!config.value.leftLoading) {
+      config.value.leftLoading = true
+      ins
+        .$post({
+          url: api.catalogManage
+        })
+        .then((res) => {
+          useSafeData(res, { default: [] }).then(({ data, status }) => {
+            tree.value.data = data.map((item) => {
+              return {
+                id: item.id,
+                name: item.name,
+                children: buildTree(item.dataAssetsCatalogVos)
+              }
+            })
+            resolve(status)
+          })
+        })
+        .finally(() => {
+          config.value.leftLoading = false
+        })
+    }
+  })
+}
+
+const getFoldIdByCatalogId = (catalogId) => {
+  return new Promise((resolve) => {
+    if (!zjListRef.value.tableLoading) {
+      zjListRef.value.tableLoading = true
+      ins
+        .$get({
+          url: api.getFoldIdByCatalogId,
+          data: {
+            catalogId
+          }
+        })
+        .then((res) => {
+          useSafeData(res, { default: '' }).then(async ({ data, status }) => {
+            zjListRef.value.tableLoading = false
+            if (status) {
+              pageParams.value.folderId = data
+              getPage()
+            } else {
+              zjListRef.value.tableData = []
+              zjListRef.value.total = 0
+              zjListRef.value.currentPage = 1
+              pageParams.value.currentPage = 1
+            }
+          })
+        })
+        .finally(() => {
+          resolve(true)
+        })
+    }
+  })
+}
+
+const oPageParams = {
+  chineseName: '',
+  folderId: '',
+  currentPage: 1,
+  pageSize: 10
+}
+const pageParams = ref(oPageParams)
+const resetPageParams = () => {
+  pageParams.value = {
+    chineseName: '',
+    folderId: '',
+    currentPage: 1,
+    pageSize: 10
+  }
+}
+const getPage = () => {
+  return new Promise((resolve) => {
+    if (!zjListRef.value.tableLoading) {
+      zjListRef.value.tableLoading = true
+      ins
+        .$post({
+          url: api.getPageByFolderId,
+          data: pageParams.value
+        })
+        .then((res) => {
+          useSafeData(res, { default: [] }).then(({ data, status }) => {
+            zjListRef.value.tableData = data.content
+            zjListRef.value.total = data.totalItems
+          })
+        })
+        .finally(() => {
+          zjListRef.value.tableLoading = false
+          resolve(true)
+        })
+    }
+  })
+}
+
+const init = async () => {
+  await catalogManageHandler()
+  // zjListRef.value.tableLoading = true
+}
 </script>
 
 <style lang="scss" scoped>
@@ -178,7 +321,10 @@ onMounted(() => {
   &-left {
     position: relative;
     width: 264px;
+    min-width: 264px;
     background-color: #fff;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   &-right {
     position: relative;

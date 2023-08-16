@@ -23,6 +23,7 @@
           size="small"
           plain
           icon="el-icon-arrow-left"
+          @click="goBack"
           >返回</el-button
         >
         <div class="quotaDetail-title">
@@ -38,7 +39,7 @@
           <div class="quotaDetail-info-list">
             <div
               class="quotaDetail-info-list-item"
-              v-for="(item,index) in info"
+              v-for="(item, index) in info"
               :key="index"
             >
               <div class="quotaDetail-info-list-key">{{ item.key }}</div>
@@ -46,20 +47,16 @@
             </div>
           </div>
         </div>
-        <zj-list
-          class="quota-zjlist"
-          ref="zjListRef"
-          :table-config="rZjList.tableConfig"
-        >
-        </zj-list>
       </div>
     </div>
   </div>
 </template>
 
 <script setup name="QuotaDetail">
+import api from '@/api'
 /**** 左侧菜单 ****/
 import { changeTreeNodeStatus } from '@/utils/tree'
+const ins = getCurrentInstance().proxy
 const rTree = ref(null)
 const tree = ref({
   data: [
@@ -130,38 +127,64 @@ const baseZjList = {
       }
     ],
     paging: false,
-    height:'190px'
+    height: '190px'
   }
 }
 const rZjList = ref(baseZjList)
 const zjListRef = ref(null)
 onMounted(() => {
-  zjListRef.value.tableData = new Array(6).fill({
-    a1: 'ZJ3489843940',
-    a2: '充填电力单耗',
-    a3: 'Unit consumption of filling power'
-  })
+  pageParams.value.domainId = ins.$route.params.name
+  getPageInfo()
 })
 
-const info = [
+const info = ref([
   {
     key: '业务含义：',
-    value:
-      '已完成采矿的最后生产过程，从采矿场掌子面爆破（或冲采、挖掘）下来的包括不能分采、分出，又不能剔除的连带崩落的围岩、夹石、表土和其他矿石（如铜矿中的硫铁矿）在内的总量。根据选别的元素或采矿矿区的不同，可以再进一步将采矿量细分到相应品种。（不包括副产矿）'
-  },
-  {
-    key: '业务含义：',
-    value: 'Ug ore mined'
+    value: ''
   },
   {
     key: '生产部门：',
-    value: '事业部'
+    value: ''
   },
   {
     key: '来源系统：',
-    value: '智能'
+    value: ''
   }
-]
+])
+
+const oPageParams = {
+  domainId: ''
+}
+const pageParams = ref(oPageParams)
+const resetPageParams = () => {
+  pageParams.value = {
+    domainId: ''
+  }
+}
+const getPageInfo = () => {
+  return new Promise((resolve) => {
+    ins
+      .$post({
+        url: api.getPageInfoByDomainId,
+        data: pageParams.value
+      })
+      .then((res) => {
+        useSafeData(res, { default: {} }).then(({ data, status }) => {
+          info.value[0].value = data.description
+          info.value[1].value = data.ownerOrgName
+          info.value[2].value = data.authoritativeSystem
+        })
+      })
+      .finally(() => {
+        resolve(true)
+      })
+  })
+}
+const goBack = () => {
+  ins.$router.push({
+    name: 'Quota'
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -238,6 +261,7 @@ $radius: 4px;
     gap: 18px;
     margin-left: 16px;
     margin-bottom: 32px;
+    align-items: center;
     &-icon {
       display: block;
       width: 64px;
