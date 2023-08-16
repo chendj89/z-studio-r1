@@ -46,36 +46,40 @@ const catalogManageHandler = () => {
           url: api.catalogManage
         })
         .then((res) => {
-          tree.value.data = mockData.map((item) => {
-            return {
-              id: item.id,
-              name: item.name,
-              isDir: true,
-              children: buildTree(item.dataAssetsCatalogVos)
-            }
-          })
-          if (ins.$route.params.id) {
-            nextTick(() => {
-              let result = findTreeNodeById(
-                rTree.value.root,
-                ins.$route.params.id
-              )
-              if (result && result.length) {
-                for (let i = result.length - 1; i > 0; i--) {
-                  if (result[i].isDir) {
-                    result[i].expanded = true
-                    break
-                  } else {
-                    if (i == result.length - 1) {
-                      changeTreeNodeStatus(result[i], true)
-                    } else {
+          if (res.data) {
+            tree.value.data = res.data.map((item) => {
+              return {
+                id: item.id,
+                name: item.name,
+                isDir: true,
+                children: buildTree(item.dataAssetsCatalogVos)
+              }
+            })
+            if (ins.$route.params.id) {
+              nextTick(() => {
+                let result = findTreeNodeById(
+                  rTree.value.root,
+                  ins.$route.params.id
+                )
+                if (result && result.length) {
+                  for (let i = result.length - 1; i > 0; i--) {
+                    if (result[i].isDir) {
                       result[i].expanded = true
+                      break
+                    } else {
+                      if (i == result.length - 1) {
+                        changeTreeNodeStatus(result[i], true)
+                      } else {
+                        result[i].expanded = true
+                      }
                     }
                   }
                 }
-              }
-            })
+              })
+            }
+          } else {
           }
+
           resolve(true)
         })
         .finally(() => {

@@ -78,7 +78,7 @@ const baseZjList = {
         resetPageParams()
         pageParams.value = {
           ...pageParams.value,
-          ...params.data,
+          ...params.data
         }
         getPage()
         return false
@@ -102,8 +102,10 @@ const zjListRef = ref(null)
 const unWatch = watch(
   () => ins.$route,
   (to, from) => {
-    if (!['QuotaDetail'].includes(from.name)) {
-      initHandler(to.params.id)
+    if (to.name == 'Quota') {
+      if (!['QuotaDetail'].includes(from.name)) {
+        initHandler(to.params.id)
+      }
     }
   }
 )
