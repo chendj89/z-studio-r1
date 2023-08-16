@@ -32,6 +32,7 @@
 <script setup name="Quota">
 import api from '@/api'
 import { buildTree } from './js/index'
+import mockData from './js/mock'
 const ins = getCurrentInstance().proxy
 
 /**** 左侧菜单 ****/
@@ -51,8 +52,9 @@ const groupHandle = () => {
   tree.value.expand = !tree.value.expand
 }
 const nodeClick = (data, node, that) => {
-  console.log(data.id)
-  getFoldIdByCatalogId(data.id)
+  if (!data.isDir) {
+    getFoldIdByCatalogId(data.id)
+  }
 }
 
 /**** 表格 ****/
@@ -190,16 +192,25 @@ const catalogManageHandler = () => {
           url: api.catalogManage
         })
         .then((res) => {
-          useSafeData(res, { default: [] }).then(({ data, status }) => {
-            tree.value.data = data.map((item) => {
-              return {
-                id: item.id,
-                name: item.name,
-                children: buildTree(item.dataAssetsCatalogVos)
-              }
-            })
-            resolve(status)
+          tree.value.data = mockData.map((item) => {
+            return {
+              id: item.id,
+              name: item.name,
+              isDir: true,
+              children: buildTree(item.dataAssetsCatalogVos)
+            }
           })
+          resolve(true)
+          // useSafeData(res, { default: [] }).then(({ data, status }) => {
+          //   tree.value.data = data.map((item) => {
+          //     return {
+          //       id: item.id,
+          //       name: item.name,
+          //       children: buildTree(item.dataAssetsCatalogVos)
+          //     }
+          //   })
+          //   resolve(status)
+          // })
         })
         .finally(() => {
           config.value.leftLoading = false

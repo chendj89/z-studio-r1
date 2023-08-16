@@ -42,7 +42,7 @@ export default defineConfig({
       '/datablau-cloud': {
         target: target,
         changeOrigin: true
-      }
+      },
     }
   }
 })

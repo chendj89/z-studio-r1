@@ -1,6 +1,7 @@
 export default [
   {
     name: '境内矿山',
+    id: 174,
     href: {
       url: '',
       name: '更多指标'
@@ -24,6 +25,7 @@ export default [
   },
   {
     name: '境外企业',
+    id: 174,
     href: {
       url: '',
       name: '更多指标'
@@ -42,16 +44,12 @@ export default [
         title: '指标明细：',
         content:
           '采：采矿量、出矿品位、录离量、掘进量、剥采比、掘采比、损失率、贫化率、充填量；'
-      },
-      {
-        title: '选冶：',
-        content:
-          '设备运转相关指标、处理干矿量、处理品位、产量、尾矿相关指标、金属回收相关指标；其他：劳动生产率、吨矿物耗能耗'
       }
     ]
   },
   {
     name: '冶炼与新能源',
+    id: 175,
     href: {
       url: '',
       name: '更多指标'
@@ -73,6 +71,7 @@ export default [
   },
   {
     name: '地质勘查',
+    id: 172,
     href: {
       url: '',
       name: '更多指标'
@@ -96,6 +95,7 @@ export default [
   },
   {
     name: '计划财务',
+    id: 11,
     href: {
       url: '',
       name: '更多指标'
@@ -118,6 +118,7 @@ export default [
   },
   {
     name: '供应链',
+    id: 9,
     href: {
       url: '',
       name: '更多指标'
@@ -140,6 +141,7 @@ export default [
   },
   {
     name: '技术管理',
+    id: 7,
     href: {
       url: '',
       name: '更多指标'
@@ -162,6 +164,7 @@ export default [
   },
   {
     name: '人力资源',
+    id: 8,
     href: {
       url: '',
       name: '更多指标'

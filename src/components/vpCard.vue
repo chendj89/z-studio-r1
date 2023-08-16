@@ -44,8 +44,8 @@ const btn = () => {
 <style lang="scss" scoped>
 .card {
   @include flexColumn();
-  width: 270px;
-  height: 570px;
+  width: 300px;
+  height: 470px;
   background: #ffffff;
   box-shadow: 0 0 22px 0 #00000005;
   border-radius: 20px;

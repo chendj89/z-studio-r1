@@ -38,7 +38,7 @@ const userStore = useUserStore()
     flex-wrap: wrap;
     justify-content: center;
     padding: 20px 0;
-    margin-bottom: 240px;
+    margin-bottom: 80px;
   }
 }
 </style>
