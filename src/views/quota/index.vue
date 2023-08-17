@@ -67,6 +67,9 @@ const catalogManageHandler = () => {
                     } else {
                       if (i == result.length - 1) {
                         changeTreeNodeStatus(result[i], true)
+                        if (result[i].data) {
+                          rTree.value.setCurrentKey(result[i].data.id)
+                        }
                       } else {
                         result[i].expanded = true
                       }
@@ -106,6 +109,7 @@ const routeList = ['Quota']
             highlight-current
             class="quota-tree"
             @node-click="nodeClick"
+            node-key="id"
           >
           </el-tree>
         </div>

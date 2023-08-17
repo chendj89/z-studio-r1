@@ -132,6 +132,7 @@ const getFoldIdByCatalogId = (catalogId) => {
         .then((res) => {
           zjListRef.value.tableLoading = false
           if (res.code == 200) {
+            pageParams.value.folderId=res.data;
             getPage()
           } else {
             initTableList()

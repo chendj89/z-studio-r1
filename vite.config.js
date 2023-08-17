@@ -8,11 +8,11 @@ import AutoImport from 'unplugin-auto-import/vite'
 import ViteComponents from 'unplugin-vue-components/vite'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 
-const target = `http://172.22.24.170:8090`
+const target = `http://10.101.65.11:8090`
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV == 'development' ? '/' : '/newgateway/',
+  base: process.env.NODE_ENV == 'development' ? '/' : '/dataasset/',
   define: {
     updateDate: new Date().getTime()
   },
