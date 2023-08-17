@@ -17,3 +17,7 @@ export function toHump(str) {
 export function isExternal(path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
+
+export const getAssetsFile = (url) => {
+  return new URL(`@/../public/${url}`, import.meta.url).href
+}

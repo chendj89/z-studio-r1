@@ -12,6 +12,7 @@ const target = `http://172.22.24.170:8090`
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: process.env.NODE_ENV == 'development' ? '/' : '/newgateway/',
   plugins: [
     vue2(),
     vueJsx(),
@@ -42,7 +43,7 @@ export default defineConfig({
       '/datablau-cloud': {
         target: target,
         changeOrigin: true
-      },
+      }
     }
   }
 })

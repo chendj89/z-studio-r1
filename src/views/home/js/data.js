@@ -7,8 +7,8 @@ export default [
       name: '更多指标'
     },
     icon: {
-      default: '/res/home/jnks.png',
-      hover: '/res/home/jnks2.png'
+      default: 'res/home/jnks.png',
+      hover: 'res/home/jnks2.png'
     },
     children: [
       {
@@ -31,8 +31,8 @@ export default [
       name: '更多指标'
     },
     icon: {
-      default: '/res/home/jwqy.png',
-      hover: '/res/home/jwqy2.png'
+      default: 'res/home/jwqy.png',
+      hover: 'res/home/jwqy2.png'
     },
     children: [
       {
@@ -55,8 +55,8 @@ export default [
       name: '更多指标'
     },
     icon: {
-      default: '/res/home/ylyxny.png',
-      hover: '/res/home/ylyxny2.png'
+      default: 'res/home/ylyxny.png',
+      hover: 'res/home/ylyxny2.png'
     },
     children: [
       {
@@ -77,8 +77,8 @@ export default [
       name: '更多指标'
     },
     icon: {
-      default: '/res/home/dzkc.png',
-      hover: '/res/home/dzkc2.png'
+      default: 'res/home/dzkc.png',
+      hover: 'res/home/dzkc2.png'
     },
     children: [
       {
@@ -101,8 +101,8 @@ export default [
       name: '更多指标'
     },
     icon: {
-      default: '/res/home/jhcw.png',
-      hover: '/res/home/jhcw2.png'
+      default: 'res/home/jhcw.png',
+      hover: 'res/home/jhcw2.png'
     },
     children: [
       {
@@ -124,8 +124,8 @@ export default [
       name: '更多指标'
     },
     icon: {
-      default: '/res/home/gyl.png',
-      hover: '/res/home/gyl2.png'
+      default: 'res/home/gyl.png',
+      hover: 'res/home/gyl2.png'
     },
     children: [
       {
@@ -147,8 +147,8 @@ export default [
       name: '更多指标'
     },
     icon: {
-      default: '/res/home/jsgl.png',
-      hover: '/res/home/jsgl2.png'
+      default: 'res/home/jsgl.png',
+      hover: 'res/home/jsgl2.png'
     },
     children: [
       {
@@ -170,8 +170,8 @@ export default [
       name: '更多指标'
     },
     icon: {
-      default: '/res/home/rlzy.png',
-      hover: '/res/home/rlzy2.png'
+      default: 'res/home/rlzy.png',
+      hover: 'res/home/rlzy2.png'
     },
     children: [
       {

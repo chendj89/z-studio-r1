@@ -28,6 +28,7 @@
 </template>
 
 <script setup name="VpCard">
+import {getAssetsFile} from '@/utils'
 const props = defineProps({
   data: {
     type: Object,

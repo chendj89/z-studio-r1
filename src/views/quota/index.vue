@@ -95,7 +95,8 @@ onMounted(() => {
 const routeList = ['Quota']
 </script>
 <template>
-  <div class="quota bg">
+  <div class="layout">
+    <div class="quota bg">
     <div class="quota-content">
       <!-- 左侧 -->
       <div class="quota-left" v-loading="pageConfig.loading">
@@ -117,6 +118,7 @@ const routeList = ['Quota']
         </keep-alive>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

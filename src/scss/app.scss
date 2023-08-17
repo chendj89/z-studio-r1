@@ -10,6 +10,7 @@ html,
 body,
 #app {
   height: 100vh;
+  overflow: hidden;
 }
 * {
   box-sizing: border-box;
@@ -18,11 +19,14 @@ body,
 }
 .layout {
   @include flexColumn();
+  height: 100%;
+  overflow-y: auto;
   &-content {
     width: px2rem(1400px);
     margin: 0 auto;
     flex: 1;
   }
+
 }
 .bg {
   background: #f8f9fd;
