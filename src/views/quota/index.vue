@@ -182,9 +182,9 @@ const routeList = ['Quota']
       background-image: url('@/assets/res/quota/folderclose.png');
       background-size: 100% 100%;
       transform: rotate(0) !important;
-      &.expanded {
-        background-image: url('@/assets/res/quota/folderopen.png');
-      }
+    }
+    &::v-deep .is-expanded &-floder {
+      background-image: url('@/assets/res/quota/folderopen.png');
     }
     &::v-deep .el-tree-node.is-current > .el-tree-node__content {
       background-color: #e5f3ff;

@@ -78,10 +78,12 @@ const baseZjList = {
     http: {
       url: '/',
       onBefore: (params) => {
+        const folderId=pageParams.value.folderId
         resetPageParams()
         pageParams.value = {
           ...pageParams.value,
-          ...params.data
+          ...params.data,
+          folderId
         }
         getPage()
         return false
@@ -132,7 +134,7 @@ const getFoldIdByCatalogId = (catalogId) => {
         .then((res) => {
           zjListRef.value.tableLoading = false
           if (res.code == 200) {
-            pageParams.value.folderId=res.data;
+            pageParams.value.folderId = res.data
             getPage()
           } else {
             initTableList()
@@ -195,8 +197,8 @@ const initHandler = (id) => {
 }
 onMounted(() => {
   const id = ins.$route.params.id || ''
-  const content=ins.$route.query?.content||''
-  pageParams.value.chineseName=content
+  const content = ins.$route.query?.content || ''
+  pageParams.value.chineseName = content
   initHandler(id)
 })
 </script>
