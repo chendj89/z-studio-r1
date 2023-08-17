@@ -6,6 +6,7 @@
   --r1-maxWidth: #{$maxWidth};
   --r1-safeWidth: #{$safeWidth};
 }
+@import './theme/blue';
 html,
 body,
 #app {
@@ -28,7 +29,6 @@ body,
     margin: 0 auto;
     flex: 1;
   }
-
 }
 .bg {
   background: #f8f9fd;

@@ -17,7 +17,6 @@ const userStore = useUserStore()
         ></VpCard>
       </div>
     </div>
-    <VpFooter class="layout-footer"></VpFooter>
   </div>
 </template>
 
