@@ -2,12 +2,25 @@
 const ins = getCurrentInstance().proxy
 const content = ref('')
 const search = () => {
-  if (content.value) {
+  let str = content.value.trim()
+  if (content.value.trim()) {
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(str)) {
+      ins.$message({
+        type: 'warning',
+        message: '暂不支持特殊符号搜索'
+      })
+      return
+    }
     ins.$router.push({
       name: 'Quota',
       query: {
-        content: content.value.trim()
+        content: str
       }
+    })
+  } else {
+    ins.$message({
+      type: 'error',
+      message: '请输入关键词'
     })
   }
 }

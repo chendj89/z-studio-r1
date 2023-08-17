@@ -12,7 +12,7 @@
     <div class="quotaDetail-title">
       <img
         class="quotaDetail-title-icon"
-        :src="addVersion('res/quota/frame.png')"
+        :src="frame"
         alt=""
       />
       <div class="quotaDetail-title-name">{{ pageInfo.path.join('-') }}</div>
@@ -37,6 +37,8 @@
 import api from '@/api'
 import { addVersion } from '@/utils/image'
 const ins = getCurrentInstance().proxy
+import frame from '@/assets/res/quota/frame.png'
+
 const pageConfig = ref({
   loading: false
 })
