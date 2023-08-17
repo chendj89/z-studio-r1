@@ -1,10 +1,10 @@
 <template>
   <div class="card" v-if="data">
     <div class="card-title">
-      <img class="card-title-icon" :src="addVersion(data.icon.default)" alt="" />
+      <img class="card-title-icon" :src="imgs[data.icon.default]" alt="" />
       <img
         class="card-title-icon card-title-icon2"
-        :src="addVersion(data.icon.hover)"
+        :src="imgs[data.icon.hover]"
         alt=""
       />
       <div class="card-title-name">{{ data.name }}</div>
@@ -29,6 +29,41 @@
 
 <script setup name="VpCard">
 import { addVersion } from '@/utils/image'
+import dzkc from '@/assets/res/home/dzkc.png';
+import dzkc2 from '@/assets/res/home/dzkc2.png';
+import gyl from '@/assets/res/home/gyl.png';
+import gyl2 from '@/assets/res/home/gyl2.png';
+import jhcw from '@/assets/res/home/jhcw.png';
+import jhcw2 from '@/assets/res/home/jhcw2.png';
+import jnks from '@/assets/res/home/jnks.png';
+import jnks2 from '@/assets/res/home/jnks2.png';
+import jsgl from '@/assets/res/home/jsgl.png';
+import jsgl2 from '@/assets/res/home/jsgl2.png';
+import jwqy from '@/assets/res/home/jwqy.png';
+import jwqy2 from '@/assets/res/home/jwqy2.png';
+import rlzy from '@/assets/res/home/rlzy.png';
+import rlzy2 from '@/assets/res/home/rlzy2.png';
+import ylyxny from '@/assets/res/home/ylyxny.png';
+import ylyxny2 from '@/assets/res/home/ylyxny2.png';
+let imgs={
+  dzkc,
+  dzkc2,
+  gyl,
+  gyl2,
+  jhcw,
+  jhcw2,
+  jnks,
+  jnks2,
+  jsgl,
+  jsgl2,
+  jwqy,
+  jwqy2,
+  rlzy,
+  rlzy2,
+  ylyxny,
+  ylyxny2
+}
+
 const props = defineProps({
   data: {
     type: Object,

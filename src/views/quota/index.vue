@@ -32,6 +32,16 @@ const nodeClick = (data, node, that) => {
     })
   }
 }
+const renderContent = (h, { node, data, store }) => {
+  if (node.data && node.data.isDir) {
+    return h('div', { class: 'quota-tree-item' }, [
+      h('span', { class: 'quota-tree-floder' }),
+      h('span', null, node.label)
+    ])
+  } else {
+    return h('div', { class: 'quota-tree-item' }, [h('span', null, node.label)])
+  }
+}
 /**
  * 数据管理左边树
  */
@@ -110,6 +120,7 @@ const routeList = ['Quota']
             class="quota-tree"
             @node-click="nodeClick"
             node-key="id"
+            :render-content="renderContent"
           >
           </el-tree>
         </div>
@@ -150,11 +161,35 @@ const routeList = ['Quota']
   &-tree {
     width: 100%;
     border-radius: $radius;
+    font-size: 14px;
     // 过滤子节点
     &::v-deep(.el-icon-caret-right):not(.is-leaf) {
       font-size: 18px;
-      color: var(--ZjColorPrimary);
+      color: #606266;
       & + .el-tree-node__label {
+        color: var(--ZjColorPrimary);
+      }
+    }
+    &::v-deep() &-item {
+      display: flex;
+      align-items: center;
+    }
+    &::v-deep &-floder {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+      background-image: url('@/assets/res/quota/folderclose.png');
+      background-size: 100% 100%;
+      transform: rotate(0) !important;
+      &.expanded {
+        background-image: url('@/assets/res/quota/folderopen.png');
+      }
+    }
+    &::v-deep .el-tree-node.is-current > .el-tree-node__content {
+      background-color: #e5f3ff;
+      color: var(--ZjColorPrimary);
+      .el-icon-caret-right:not(.is-leaf) {
         color: var(--ZjColorPrimary);
       }
     }
@@ -166,7 +201,7 @@ const routeList = ['Quota']
     top: 0;
     width: 32px;
     height: 27px;
-    background-image: url('res/quota/group.png');
+    background-image: url('@/assets/res/quota/group.png');
     background-size: 100% 100%;
     z-index: 1;
   }

@@ -195,6 +195,8 @@ const initHandler = (id) => {
 }
 onMounted(() => {
   const id = ins.$route.params.id || ''
+  const content=ins.$route.query?.content||''
+  pageParams.value.chineseName=content
   initHandler(id)
 })
 </script>
