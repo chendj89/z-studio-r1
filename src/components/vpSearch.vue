@@ -31,6 +31,7 @@ const search = () => {
   display: block;
   width: 100%;
   height: 401px;
+  min-height: 401px;
   background-image: url('/res/home/3d.png');
   background-size: 1920px 401px;
   background-position: center center;
