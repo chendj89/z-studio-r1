@@ -21,6 +21,8 @@ body,
   @include flexColumn();
   height: 100%;
   overflow-y: auto;
+  max-width: px2rem(1920px);
+  margin: 0 auto;
   &-content {
     width: px2rem(1400px);
     margin: 0 auto;

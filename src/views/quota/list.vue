@@ -1,7 +1,10 @@
 <script setup name="QuotaList">
 import { onBeforeUnmount, onMounted, watch } from 'vue'
 import api from '@/api'
-
+// import { addResizeListener } from '@/utils/resize'
+// addResizeListener(() => {
+//   zjListRef.value.doLayout()
+// })
 const ins = getCurrentInstance().proxy
 const baseZjList = {
   searchConfig: {
@@ -133,18 +136,6 @@ const getFoldIdByCatalogId = (catalogId) => {
           } else {
             initTableList()
           }
-          // useSafeData(res, { default: '' }).then(async ({ data, status }) => {
-          //   zjListRef.value.tableLoading = false
-          //   if (status) {
-          //     pageParams.value.folderId = data
-          //     getPage()
-          //   } else {
-          //     zjListRef.value.tableData = []
-          //     zjListRef.value.total = 0
-          //     zjListRef.value.currentPage = 1
-          //     pageParams.value.currentPage = 1
-          //   }
-          // })
         })
         .finally(() => {
           resolve(true)

@@ -1,9 +1,7 @@
 <script setup name="Quota">
 import api from '@/api'
 import { buildTree } from './js/index'
-import mockData from './js/mock'
 const ins = getCurrentInstance().proxy
-
 const pageConfig = ref({
   loading: false
 })
@@ -97,28 +95,29 @@ const routeList = ['Quota']
 <template>
   <div class="layout">
     <div class="quota bg">
-    <div class="quota-content">
-      <!-- 左侧 -->
-      <div class="quota-left" v-loading="pageConfig.loading">
-        <el-tree
-          ref="rTree"
-          :data="tree.data"
-          :props="tree.defaultProps"
-          :expand-on-click-node="false"
-          highlight-current
-          class="quota-tree"
-          @node-click="nodeClick"
-        >
-        </el-tree>
-      </div>
-      <!-- 右侧 -->
-      <div class="quota-right">
-        <keep-alive :include="['QuotaList']">
-          <router-view> </router-view>
-        </keep-alive>
+      <div class="quota-content">
+        <!-- 左侧 -->
+        <div class="quota-left" v-loading="pageConfig.loading">
+          <el-tree
+            ref="rTree"
+            :data="tree.data"
+            :props="tree.defaultProps"
+            :expand-on-click-node="false"
+            highlight-current
+            class="quota-tree"
+            @node-click="nodeClick"
+          >
+          </el-tree>
+        </div>
+        <div class="quota-group g-btn"></div>
+        <!-- 右侧 -->
+        <div class="quota-right">
+          <keep-alive :include="['QuotaList']">
+            <router-view> </router-view>
+          </keep-alive>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -128,11 +127,13 @@ const routeList = ['Quota']
   height: 100%;
   padding: 16px;
   &-content {
+    position: relative;
     display: flex;
     gap: 16px;
     height: 100%;
   }
   &-left {
+    position: relative;
     width: 264px;
     min-width: 264px;
     background-color: #fff;
@@ -153,6 +154,17 @@ const routeList = ['Quota']
         color: var(--r1-theme);
       }
     }
+  }
+  &-group {
+    display: none;
+    position: absolute;
+    left: 264px;
+    top: 0;
+    width: 32px;
+    height: 27px;
+    background-image: url('res/quota/group.png');
+    background-size: 100% 100%;
+    z-index: 1;
   }
 }
 </style>
