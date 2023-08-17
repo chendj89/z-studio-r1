@@ -10,8 +10,12 @@
       >返回</el-button
     >
     <div class="quotaDetail-title">
-      <img class="quotaDetail-title-icon" src="/res/quota/frame.png" alt="" />
-      <div class="quotaDetail-title-name">{{pageInfo.path.join('-')}}</div>
+      <img
+        class="quotaDetail-title-icon"
+        :src="addVersion('res/quota/frame.png')"
+        alt=""
+      />
+      <div class="quotaDetail-title-name">{{ pageInfo.path.join('-') }}</div>
     </div>
     <div class="quotaDetail-info" v-loading="pageConfig.loading">
       <div class="quotaDetail-info-title">指标信息</div>
@@ -31,6 +35,7 @@
 
 <script setup name="QuotaDetail">
 import api from '@/api'
+import { addVersion } from '@/utils/image'
 const ins = getCurrentInstance().proxy
 const pageConfig = ref({
   loading: false

@@ -149,9 +149,9 @@ const routeList = ['Quota']
     // 过滤子节点
     &::v-deep(.el-icon-caret-right):not(.is-leaf) {
       font-size: 18px;
-      color: var(--r1-theme);
+      color: var(--ZjColorPrimary);
       & + .el-tree-node__label {
-        color: var(--r1-theme);
+        color: var(--ZjColorPrimary);
       }
     }
   }

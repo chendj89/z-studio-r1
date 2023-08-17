@@ -1,10 +1,10 @@
 <template>
   <div class="card" v-if="data">
     <div class="card-title">
-      <img class="card-title-icon" :src="data.icon.default" alt="" />
+      <img class="card-title-icon" :src="addVersion(data.icon.default)" alt="" />
       <img
         class="card-title-icon card-title-icon2"
-        :src="data.icon.hover"
+        :src="addVersion(data.icon.hover)"
         alt=""
       />
       <div class="card-title-name">{{ data.name }}</div>
@@ -28,7 +28,7 @@
 </template>
 
 <script setup name="VpCard">
-import {getAssetsFile} from '@/utils'
+import { addVersion } from '@/utils/image'
 const props = defineProps({
   data: {
     type: Object,

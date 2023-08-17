@@ -13,6 +13,9 @@ const target = `http://172.22.24.170:8090`
 // https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.NODE_ENV == 'development' ? '/' : '/newgateway/',
+  define: {
+    updateDate: new Date().getTime()
+  },
   plugins: [
     vue2(),
     vueJsx(),
