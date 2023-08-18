@@ -21,3 +21,9 @@ export function isExternal(path) {
 export const getAssetsFile = (url) => {
   return new URL(`@/../public/${url}`, import.meta.url).href
 }
+export function getTokenFromUrl(url,name) {
+  const urlObj = new URL(url);
+  const hashParams = new URLSearchParams(urlObj.hash.replace("#/", ""));
+  const token = hashParams.get(name);
+  return token;
+}
