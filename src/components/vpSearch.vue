@@ -30,7 +30,7 @@ const search = () => {
     <div class="vpSearch-content">
       <input
         v-model="content"
-        placeholder="搜索指标名称"
+        placeholder="搜索资产名称"
         class="vpSearch-content-input"
         @keyup.enter="search"
       />
