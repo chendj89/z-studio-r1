@@ -111,7 +111,9 @@ const unWatch = watch(
       zjListRef.value.searchParams=ref({
         chineseName:''
       })
-      pageParams.value.chineseName=""
+      // 重置分页
+      zjListRef.value.currentPage=1;
+      resetPageParams()
       init(to.params.id)
     }
   }
