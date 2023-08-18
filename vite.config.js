@@ -7,7 +7,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 // 自动导入组件-sfc
 import ViteComponents from 'unplugin-vue-components/vite'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
-
+import vitePluginsVueUnicode from './src/plugins/vite-plugins-vue-unicode'
 const target = `http://10.101.65.11:8090`
 
 // https://vitejs.dev/config/
@@ -20,6 +20,7 @@ export default defineConfig({
     vue2(),
     vueJsx(),
     vueSetupExtend(),
+    vitePluginsVueUnicode(),
     AutoImport({
       imports: ['vue', 'vue-router', 'pinia']
       // dirs: ['./src/components']
@@ -33,6 +34,13 @@ export default defineConfig({
         @use "@/scss/var.module.scss" as *;
         @use "@/scss/mixin.scss" as *;
         `
+      }
+    },
+    loaderOptions: {
+      sass: {
+        sassOptions: {
+          outputStyle: 'expanded'
+        }
       }
     }
   },

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui' // 引入element-ui
+
 import VueI18n from 'vue-i18n'
 
 // 2.9.3版本element国际化移除来自定义配置
@@ -9,7 +10,6 @@ import locale from 'element-ui/lib/locale'
 
 import enLang from '@/lang/en.json'
 import zhCnLang from '@/lang/zh-cn.json'
-
 Vue.use(ElementUI, {
   locale: zhLocale
 })
@@ -52,8 +52,9 @@ zjarkWeb.initWebI18n(i18n)
 window.useSafeData = (res, params = {}) => {
   return new Promise((resolve) => {
     resolve({
-      data: res.data,
-      status: [200].includes(res.code)
+      // 如何res.data为空 那么取默认值
+      data: res.data||params.default,
+      hasError: ![200].includes(res.code)
     })
   })
 }

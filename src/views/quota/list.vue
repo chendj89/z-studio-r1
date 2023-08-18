@@ -173,10 +173,18 @@ const getPage = () => {
           data: pageParams.value
         })
         .then((res) => {
-          useSafeData(res, { default: [] }).then(({ data, status }) => {
-            zjListRef.value.tableData = data.content
-            zjListRef.value.total = data.totalItems
-          })
+          useSafeData(res, { default: { content: [], totalItems: 0 } }).then(
+            ({ data, hasError }) => {
+              zjListRef.value.tableData = data.content
+              zjListRef.value.total = data.totalItems
+              if (hasError) {
+                ins.$message({
+                  type: 'error',
+                  message: res.msg
+                })
+              }
+            }
+          )
         })
         .finally(() => {
           zjListRef.value.tableLoading = false
