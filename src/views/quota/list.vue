@@ -78,7 +78,7 @@ const baseZjList = {
     http: {
       url: '/',
       onBefore: (params) => {
-        const folderId=pageParams.value.folderId
+        const folderId = pageParams.value.folderId
         resetPageParams()
         pageParams.value = {
           ...pageParams.value,
@@ -107,10 +107,8 @@ const zjListRef = ref(null)
 const unWatch = watch(
   () => ins.$route,
   (to, from) => {
-    if (to.name == 'Quota') {
-      if (!['QuotaDetail'].includes(from.name)) {
-        initHandler(to.params.id)
-      }
+    if (to.name == 'Quota' && to.params.reload) {
+      initHandler(to.params.id)
     }
   }
 )

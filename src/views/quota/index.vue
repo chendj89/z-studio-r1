@@ -23,14 +23,13 @@ const groupHandle = () => {
   tree.value.expand = !tree.value.expand
 }
 const nodeClick = (data, node, that) => {
-  if (1 || !data.isDir) {
-    ins.$router.push({
-      name: 'Quota',
-      params: {
-        id: data.id
-      }
-    })
-  }
+  ins.$router.push({
+    name: 'Quota',
+    params: {
+      id: data.id,
+      reload: true
+    }
+  })
 }
 const renderContent = (h, { node, data, store }) => {
   if (node.data && node.data.isDir) {
@@ -128,7 +127,7 @@ const routeList = ['Quota']
         <!-- 右侧 -->
         <div class="quota-right">
           <keep-alive :include="['QuotaList']">
-            <router-view> </router-view>
+            <router-view></router-view>
           </keep-alive>
         </div>
       </div>

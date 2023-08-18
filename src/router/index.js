@@ -31,7 +31,7 @@ const router = new VueRouter({
               component: () => import('@/views/quota/list.vue')
             },
             {
-              path: ':id?/:name',
+              path: ':id/:name',
               name: 'QuotaDetail',
               component: () => import('@/views/quota/detail.vue')
             }

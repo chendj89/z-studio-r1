@@ -97,7 +97,7 @@ const goBack = () => {
   ins.$router.push({
     name: 'Quota',
     params: {
-      id: ins.$route.params.id
+      id: ins.$route.params.id,
     }
   })
 }
