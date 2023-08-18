@@ -108,7 +108,11 @@ const unWatch = watch(
   () => ins.$route,
   (to, from) => {
     if (to.name == 'Quota' && to.params.reload) {
-      initHandler(to.params.id)
+      zjListRef.value.searchParams=ref({
+        chineseName:''
+      })
+      pageParams.value.chineseName=""
+      init(to.params.id)
     }
   }
 )
@@ -194,7 +198,7 @@ const getPage = () => {
   })
 }
 
-const initHandler = (id) => {
+const init = (id) => {
   if (id) {
     getFoldIdByCatalogId(id)
   } else {
@@ -205,7 +209,7 @@ onMounted(() => {
   const id = ins.$route.params.id || ''
   const content = ins.$route.query?.content || ''
   pageParams.value.chineseName = content
-  initHandler(id)
+  init(id)
 })
 </script>
 <template>
