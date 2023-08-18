@@ -1,7 +1,7 @@
 export default [
   {
     name: '境内矿山',
-    id: 174,
+    id: 173,
     href: {
       url: '',
       name: '更多指标'
@@ -25,7 +25,7 @@ export default [
   },
   {
     name: '境外企业',
-    id: 174,
+    id: 173,
     href: {
       url: '',
       name: '更多指标'
