@@ -1,16 +1,22 @@
 const UNICODE_MATCH_REG = /[^\x00-\xff]/g
 const CONTENT_MATCH_REG = /(?<!-)content\s*:\s*([^;\}]+)/g
-
+import path from 'path'
 export default function unicodePlugin() {
   return {
     name: 'vitePluginsVueUnicode',
-    apply: 'build',
-    transform(code, id) {
-      if (id.endsWith('.css')||id.endsWith('.scss')) {
-        console.log('id====>\n',id)
-        return code
-      } else {
-        return code
+    async generateBundle(opts, outputBundle) {
+      for (const [bundleId, bundle] of Object.entries(outputBundle)) {
+        let type = path.extname(bundle.fileName).slice(1)
+        if (type == 'css' && bundle.source.indexOf('Font Awesome') > -1) {
+          bundle.source = bundle.source.replace(
+            CONTENT_MATCH_REG,
+            function (m, p1) {
+              return m.replace(UNICODE_MATCH_REG, function (m) {
+                return '\\' + m.charCodeAt(0).toString(16)
+              })
+            }
+          )
+        }
       }
     }
   }
