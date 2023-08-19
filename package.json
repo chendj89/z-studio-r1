@@ -22,8 +22,8 @@
     "zjark-web": "http://172.22.26.230:4873/zjark-web/-/zjark-web-3.7.0.tgz"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.2.3",
-    "@vitejs/plugin-vue-jsx": "^3.0.1",
+    "@vitejs/plugin-vue2": "^2.2.0",
+    "@vitejs/plugin-vue2-jsx": "^1.1.0",
     "axios": "^1.4.0",
     "path-browserify": "^1.0.1",
     "qs": "^6.11.2",
