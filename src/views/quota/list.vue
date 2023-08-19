@@ -108,11 +108,11 @@ const unWatch = watch(
   () => ins.$route,
   (to, from) => {
     if (to.name == 'Quota' && to.params.reload) {
-      zjListRef.value.searchParams=ref({
-        chineseName:''
+      zjListRef.value.searchParams = ref({
+        chineseName: ''
       })
       // 重置分页
-      zjListRef.value.currentPage=1;
+      zjListRef.value.currentPage = 1
       resetPageParams()
       init(to.params.id)
     }
@@ -213,15 +213,44 @@ onMounted(() => {
   pageParams.value.chineseName = content
   init(id)
 })
+const tableData = [
+  {
+    date: '2016-05-02',
+    name: '王小虎',
+    address: '上海市普陀区金沙江路 1518 弄'
+  },
+  {
+    date: '2016-05-04',
+    name: '王小虎',
+    address: '上海市普陀区金沙江路 1517 弄'
+  },
+  {
+    date: '2016-05-01',
+    name: '王小虎',
+    address: '上海市普陀区金沙江路 1519 弄'
+  },
+  {
+    date: '2016-05-03',
+    name: '王小虎',
+    address: '上海市普陀区金沙江路 1516 弄'
+  }
+]
 </script>
 <template>
-  <zj-list
-    class="quota-zjlist"
-    ref="zjListRef"
-    :search-config="rZjList.searchConfig"
-    :table-config="rZjList.tableConfig"
-  >
-  </zj-list>
+  <div>
+    <zj-list
+      class="quota-zjlist"
+      ref="zjListRef"
+      :search-config="rZjList.searchConfig"
+      :table-config="rZjList.tableConfig"
+    >
+    </zj-list>
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="date" label="日期" width="180"> </el-table-column>
+      <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
+      <el-table-column prop="address" label="地址"> </el-table-column>
+    </el-table>
+  </div>
 </template>
 <style lang="scss" scoped>
 $radius: 4px;

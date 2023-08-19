@@ -14,6 +14,7 @@ import scss from '@/scss/alias.module.scss'
 import '@/scss/app.scss'
 // 去除版本环境提示
 Vue.config.productionTip = false
+console.log("---")
 let app = new Vue({
   router,
   pinia,
