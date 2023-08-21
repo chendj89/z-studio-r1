@@ -1,10 +1,6 @@
 <script setup name="QuotaList">
 import { onBeforeUnmount, onMounted, watch } from 'vue'
 import api from '@/api'
-// import { addResizeListener } from '@/utils/resize'
-// addResizeListener(() => {
-//   zjListRef.value.doLayout()
-// })
 const ins = getCurrentInstance().proxy
 const baseZjList = {
   searchConfig: {
@@ -19,7 +15,12 @@ const baseZjList = {
         default: ins.$route.query.content || '',
         trim: true,
         extend: {
-          clearable: true
+          clearable: true,
+          // 绑定事件
+          clear: function () {
+            pageParams.value.chineseName = ''
+            getPage()
+          }
         }
       }
     ],
@@ -108,11 +109,11 @@ const unWatch = watch(
   () => ins.$route,
   (to, from) => {
     if (to.name == 'Quota' && to.params.reload) {
-      zjListRef.value.searchParams=ref({
-        chineseName:''
+      zjListRef.value.searchParams = ref({
+        chineseName: ''
       })
       // 重置分页
-      zjListRef.value.currentPage=1;
+      zjListRef.value.currentPage = 1
       resetPageParams()
       init(to.params.id)
     }
