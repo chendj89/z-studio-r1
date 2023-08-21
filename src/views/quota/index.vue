@@ -123,7 +123,7 @@ const routeList = ['Quota']
           >
           </el-tree>
         </div>
-        <div class="quota-group g-btn"></div>
+        <div class="quota-group g-btn" @click="groupHandle"></div>
         <!-- 右侧 -->
         <div class="quota-right">
           <keep-alive :include="['QuotaList']">
@@ -194,7 +194,6 @@ const routeList = ['Quota']
     }
   }
   &-group {
-    display: none;
     position: absolute;
     left: 264px;
     top: 0;
