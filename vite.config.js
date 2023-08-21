@@ -8,6 +8,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import ViteComponents from 'unplugin-vue-components/vite'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 import vitePluginsVueUnicode from './src/plugins/vite-plugins-vue-unicode'
+import cleanPlugin from './src/plugins/vite-plugins-vue-clean'
 const target = `http://10.101.65.11:8090`
 
 // https://vitejs.dev/config/
@@ -25,7 +26,8 @@ export default defineConfig({
       imports: ['vue', 'vue-router', 'pinia']
       // dirs: ['./src/components']
     }),
-    ViteComponents()
+    ViteComponents(),
+    cleanPlugin()
   ],
   css: {
     preprocessorOptions: {
@@ -47,7 +49,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      vue:'vue/dist/vue.esm.js'
+      vue: 'vue/dist/vue.esm.js'
     }
   },
   server: {
