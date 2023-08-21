@@ -44,10 +44,10 @@ Vue.use(ZjarkUI)
 ZjarkUI.initZjarkI18n(i18n)
 
 // 引入方舟业务库
-import zjarkWeb from 'zjark-web'
-import 'zjark-web/lib/zjarkWeb.css'
-Vue.use(zjarkWeb)
-zjarkWeb.initWebI18n(i18n)
+// import zjarkWeb from 'zjark-web'
+// import 'zjark-web/lib/zjarkWeb.css'
+// Vue.use(zjarkWeb)
+// zjarkWeb.initWebI18n(i18n)
 
 window.useSafeData = (res, params = {}) => {
   return new Promise((resolve) => {

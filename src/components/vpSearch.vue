@@ -19,7 +19,7 @@ const search = () => {
     })
   } else {
     ins.$message({
-      type: 'error',
+      type: 'warning',
       message: '请输入资产名称'
     })
   }
