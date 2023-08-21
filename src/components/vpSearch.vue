@@ -64,6 +64,7 @@ const search = () => {
       outline: none;
       border: none;
       padding: 16px;
+      font-size: 16px;
       &::placeholder {
         color: #c0c0c0fc;
       }

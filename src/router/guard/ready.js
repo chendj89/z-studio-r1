@@ -2,11 +2,6 @@ import router from '..'
 import { getTokenFromUrl } from '@/utils'
 export default function useRouteReady() {
   router.onReady(() => {
-    const appLoadingElement = document.getElementById('appLoading')
-    if (appLoadingElement) {
-      appLoadingElement.remove()
-    }
-
     const token = window.sessionStorage.getItem('token')
     const urlToken = getTokenFromUrl(location.href, 'token')
     if (urlToken) {
