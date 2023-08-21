@@ -21,12 +21,12 @@ export default defineConfig({
     vue2(),
     vueJsx(),
     vueSetupExtend(),
-    vitePluginsVueUnicode(),
     AutoImport({
       imports: ['vue', 'vue-router', 'pinia']
       // dirs: ['./src/components']
     }),
     ViteComponents(),
+    vitePluginsVueUnicode(),
     cleanPlugin()
   ],
   css: {

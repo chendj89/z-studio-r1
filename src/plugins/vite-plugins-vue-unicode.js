@@ -1,6 +1,9 @@
 const UNICODE_MATCH_REG = /[^\x00-\xff]/g
 const CONTENT_MATCH_REG = /(?<!-)content\s*:\s*([^;\}]+)/g
 import path from 'path'
+/**
+ * 修复elementUI 图标编码 
+ */
 export default function unicodePlugin() {
   return {
     name: 'vitePluginsVueUnicode',
