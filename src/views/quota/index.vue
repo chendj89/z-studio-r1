@@ -5,6 +5,7 @@ const ins = getCurrentInstance().proxy
 const pageConfig = ref({
   loading: false
 })
+const id = ref(0)
 
 /**** 左侧菜单 ****/
 import { changeTreeNodeStatus, findTreeNodeById } from '@/utils/tree'
@@ -23,6 +24,11 @@ const groupHandle = () => {
   tree.value.expand = !tree.value.expand
 }
 const nodeClick = (data, node, that) => {
+  // 如果已是当前路由 那么不更新
+  if (ins.$route.params.id == data.id) {
+    return
+  }
+  id.value++
   ins.$router.push({
     name: 'Quota',
     params: {
@@ -102,7 +108,6 @@ const catalogManageHandler = () => {
 onMounted(() => {
   catalogManageHandler()
 })
-const routeList = ['Quota']
 </script>
 <template>
   <div class="layout">
@@ -127,7 +132,7 @@ const routeList = ['Quota']
         <!-- 右侧 -->
         <div class="quota-right">
           <keep-alive :include="['QuotaList']">
-            <router-view></router-view>
+            <router-view :key="id"></router-view>
           </keep-alive>
         </div>
       </div>

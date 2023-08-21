@@ -8,7 +8,7 @@ export default function useRouteReady() {
       sessionStorage.setItem('token', urlToken)
       return
     }
-    if (!token && process.env.NODE_ENV !== 'development') {
+    if (!token) {
       router.app.$message({
         type: 'error',
         message: '请先登录',

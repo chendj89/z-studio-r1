@@ -105,26 +105,6 @@ const baseZjList = {
 const rZjList = ref(baseZjList)
 const zjListRef = ref(null)
 
-const unWatch = watch(
-  () => ins.$route,
-  (to, from) => {
-    if (to.name == 'Quota' && to.params.reload) {
-      zjListRef.value.searchParams = ref({
-        chineseName: ''
-      })
-      // 重置分页
-      zjListRef.value.currentPage = 1
-      resetPageParams()
-      init(to.params.id)
-    }
-  }
-)
-
-onBeforeUnmount(() => {
-  // 在组件卸载前停止监听
-  unWatch()
-})
-
 const getFoldIdByCatalogId = (catalogId) => {
   return new Promise((resolve) => {
     if (!zjListRef.value.tableLoading) {
