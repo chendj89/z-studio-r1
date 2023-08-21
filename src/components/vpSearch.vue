@@ -4,7 +4,7 @@ const content = ref('')
 const search = () => {
   let str = content.value.trim()
   if (content.value.trim()) {
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(str)) {
+    if (/[!@#$%^&*()?":{}|<>]/.test(str)) {
       ins.$message({
         type: 'warning',
         message: '暂不支持特殊符号搜索'
