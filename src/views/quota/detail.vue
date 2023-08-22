@@ -35,7 +35,6 @@
 
 <script setup name="QuotaDetail">
 import api from '@/api'
-import { addVersion } from '@/utils/image'
 const ins = getCurrentInstance().proxy
 import frame from '@/assets/res/quota/frame.png'
 

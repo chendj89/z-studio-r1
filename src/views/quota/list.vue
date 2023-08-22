@@ -1,5 +1,6 @@
 <script setup name="QuotaList">
 import api from '@/api'
+import { shallowRef } from 'vue'
 const ins = getCurrentInstance().proxy
 /**
  * 表格的数据
@@ -110,7 +111,7 @@ const baseZjList = {
 /**
  * 响应数据
  */
-const rZjList = ref(baseZjList)
+const rZjList = ref(shallowRef(baseZjList))
 /**
  * zjList的ref
  */
