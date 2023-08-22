@@ -23,7 +23,6 @@ export default defineConfig({
     vueSetupExtend(),
     AutoImport({
       imports: ['vue', 'vue-router', 'pinia']
-      // dirs: ['./src/components']
     }),
     ViteComponents(),
     vitePluginsVueUnicode(),
@@ -36,13 +35,6 @@ export default defineConfig({
         @use "@/scss/var.module.scss" as *;
         @use "@/scss/mixin.scss" as *;
         `
-      }
-    },
-    loaderOptions: {
-      sass: {
-        sassOptions: {
-          outputStyle: 'expanded'
-        }
       }
     }
   },

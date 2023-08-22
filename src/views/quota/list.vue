@@ -1,7 +1,9 @@
 <script setup name="QuotaList">
-import { onBeforeUnmount, onMounted, watch } from 'vue'
 import api from '@/api'
 const ins = getCurrentInstance().proxy
+/**
+ * 表格的数据
+ */
 const baseZjList = {
   searchConfig: {
     'label-width': '100px',
@@ -12,9 +14,12 @@ const baseZjList = {
         name: 'chineseName',
         type: 'input',
         span: 8,
+        // 设置默认值
         default: ins.$route.query.content || '',
+        // 输入框去除首尾空格
         trim: true,
         extend: {
+          // 可清除
           clearable: true,
           // 绑定事件
           clear: function () {
@@ -102,9 +107,18 @@ const baseZjList = {
     }
   }
 }
+/**
+ * 响应数据
+ */
 const rZjList = ref(baseZjList)
+/**
+ * zjList的ref
+ */
 const zjListRef = ref(null)
-
+/**
+ * 根据目录id获取指定code
+ * @param {*} catalogId
+ */
 const getFoldIdByCatalogId = (catalogId) => {
   return new Promise((resolve) => {
     if (!zjListRef.value.tableLoading) {
@@ -122,6 +136,7 @@ const getFoldIdByCatalogId = (catalogId) => {
             pageParams.value.folderId = res.data
             getPage()
           } else {
+            // 如果数据有问题，那么重置表格
             initTableList()
           }
         })
@@ -145,11 +160,20 @@ const resetPageParams = () => {
     pageSize: 10
   }
 }
+/**
+ * 重置表格
+ */
 const initTableList = () => {
   zjListRef.value.tableData = []
   zjListRef.value.total = 0
 }
+/**
+ * 响应参数
+ */
 const pageParams = ref(oPageParams)
+/**
+ * 获取表格数据
+ */
 const getPage = () => {
   return new Promise((resolve) => {
     if (!zjListRef.value.tableLoading) {
@@ -181,14 +205,21 @@ const getPage = () => {
   })
 }
 
+/**
+ * 初始化
+ * @param {*} id
+ */
 const init = (id) => {
+  // 如果有id时，需要获取code
   if (id) {
     getFoldIdByCatalogId(id)
   } else {
+    // 否则获取全部
     getPage()
   }
 }
 onMounted(() => {
+  // 判断目录id和搜索关键词
   const id = ins.$route.params.id || ''
   const content = ins.$route.query?.content || ''
   pageParams.value.chineseName = content

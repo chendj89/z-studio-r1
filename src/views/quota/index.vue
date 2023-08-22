@@ -5,12 +5,20 @@ const ins = getCurrentInstance().proxy
 const pageConfig = ref({
   loading: false
 })
+/**
+ * 用刷新routerView
+ */
 const id = ref(0)
 
 /**** 左侧菜单 ****/
 import { changeTreeNodeStatus, findTreeNodeById } from '@/utils/tree'
-import { onMounted } from 'vue'
+/**
+ * elTree的ref
+ */
 const rTree = ref(null)
+/**
+ * elTree的数据和配置
+ */
 const tree = ref({
   data: [],
   defaultProps: {
@@ -19,10 +27,19 @@ const tree = ref({
   },
   expand: true
 })
+/**
+ * 展开/收缩elTree
+ */
 const groupHandle = () => {
   changeTreeNodeStatus(rTree.value.root, tree.value.expand)
   tree.value.expand = !tree.value.expand
 }
+/**
+ * 点击elTree的标签事件
+ * @param {*} data
+ * @param {*} node
+ * @param {*} that
+ */
 const nodeClick = (data, node, that) => {
   // 如果已是当前路由 那么不更新
   if (ins.$route.params.id == data.id) {
@@ -37,6 +54,11 @@ const nodeClick = (data, node, that) => {
     }
   })
 }
+/**
+ * 自定义渲染tree标签
+ * @param {*} h
+ * @param {*} param1
+ */
 const renderContent = (h, { node, data, store }) => {
   if (node.data && node.data.isDir) {
     return h('div', { class: 'quota-tree-item' }, [
@@ -51,6 +73,7 @@ const renderContent = (h, { node, data, store }) => {
  * 数据管理左边树
  */
 const catalogManageHandler = () => {
+  // 用Promise包裹，便利用async/await
   return new Promise((resolve) => {
     if (!pageConfig.value.loading) {
       pageConfig.value.loading = true
@@ -60,14 +83,17 @@ const catalogManageHandler = () => {
         })
         .then((res) => {
           if (res.data) {
+            // 合成elTree的数据
             tree.value.data = res.data.map((item) => {
               return {
                 id: item.id,
                 name: item.name,
+                // 定义目录
                 isDir: true,
                 children: buildTree(item.dataAssetsCatalogVos)
               }
             })
+            // 如果有id 需要展开指定elTree节点
             if (ins.$route.params.id) {
               nextTick(() => {
                 let result = findTreeNodeById(
@@ -94,8 +120,8 @@ const catalogManageHandler = () => {
               })
             }
           } else {
+            tree.value.data=[]
           }
-
           resolve(true)
         })
         .finally(() => {
