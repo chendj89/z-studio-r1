@@ -1,6 +1,5 @@
 <script setup name="QuotaList">
 import api from '@/api'
-import { inject, shallowRef } from 'vue'
 import { findElementById } from './js/index'
 const ins = getCurrentInstance().proxy
 // 接收父元素的数据
@@ -119,33 +118,42 @@ const rZjList = ref(shallowRef(baseZjList))
  * zjList的ref
  */
 const zjListRef = ref(null)
-const id = ins.$route.params.id || ''
-let catalogIds = ''
-if (id) {
-  let result = findElementById(g_tree.value.data, id)
+/**
+ * 获取搜索关键词、目录id
+ */
+const getPageParams = () => {
+  // 关键词
+  const content = ins.$route.query?.content || ''
+  const id = ins.$route.params.id || ''
+  let result = ''
+  if (id) {
+    result = findElementById(g_tree.value.data, id)
+  }
+  // 目录id
+  let catalogIds = ''
   if (result) {
     catalogIds = result?.ids.join(',')
   }
+  return {
+    // 目录id
+    catalogIds:catalogIds,
+    // 搜索关键词
+    chineseName: content
+  }
 }
-
 const oPageParams = {
   chineseName: '',
-  folderId: '',
   currentPage: 1,
   pageSize: 10,
-  catalogIds: catalogIds || '',
+  catalogIds: '',
   orderColumn: 'createTime',
-  order: 'asc'
+  order: 'asc',
+  ...getPageParams()
 }
 const resetPageParams = () => {
-  pageParams.value = ref(shallowRef(oPageParams))
-}
-/**
- * 重置表格
- */
-const initTableList = () => {
-  zjListRef.value.tableData = []
-  zjListRef.value.total = 0
+  pageParams.value = {
+    ...oPageParams
+  }
 }
 /**
  * 响应参数
@@ -164,18 +172,17 @@ const getPage = () => {
           data: pageParams.value
         })
         .then((res) => {
-          useSafeData(res, { default: { content: [], totalItems: 0 } }).then(
-            ({ data, hasError }) => {
-              zjListRef.value.tableData = data.records
-              zjListRef.value.total = data.total
-              if (hasError) {
-                ins.$message({
-                  type: 'error',
-                  message: res.msg
-                })
-              }
-            }
-          )
+          if (res.code == 200) {
+            zjListRef.value.tableData = res.data.records
+            zjListRef.value.total = res.data.total
+          } else {
+            zjListRef.value.tableData = []
+            zjListRef.value.total = 0
+            ins.$message({
+              type: 'error',
+              message: res.msg
+            })
+          }
         })
         .finally(() => {
           zjListRef.value.tableLoading = false
@@ -186,8 +193,6 @@ const getPage = () => {
 }
 
 onMounted(() => {
-  const content = ins.$route.query?.content || ''
-  pageParams.value.chineseName = content
   getPage()
 })
 </script>

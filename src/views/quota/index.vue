@@ -12,10 +12,11 @@ const pageConfig = ref({
 /**
  * 用刷新routerView
  */
-const id = ref(0)
+const routeShow = ref(false)
 
 /**** 左侧菜单 ****/
 import { changeTreeNodeStatus, findTreeNodeById } from '@/utils/tree'
+import { nextTick } from 'vue'
 /**
  * elTree的ref
  */
@@ -51,13 +52,16 @@ const nodeClick = (data, node, that) => {
   if (ins.$route.params.id == data.id) {
     return
   }
-  id.value++
+  routeShow.value = false
   ins.$router.push({
     name: 'Quota',
     params: {
       id: data.id,
       reload: true
     }
+  })
+  nextTick(() => {
+    routeShow.value = true
   })
 }
 /**
@@ -136,6 +140,7 @@ const catalogManageHandler = () => {
         })
         .finally(() => {
           pageConfig.value.loading = false
+          routeShow.value = true
         })
     }
   })
@@ -148,9 +153,13 @@ onMounted(() => {
 <template>
   <div class="layout">
     <div class="quota bg">
-      <div class="quota-content">
+      <div
+        class="quota-content"
+        v-loading="pageConfig.loading"
+        element-loading-text="数据加载中"
+      >
         <!-- 左侧 -->
-        <div class="quota-left" v-loading="pageConfig.loading">
+        <div class="quota-left">
           <el-tree
             ref="rTree"
             :data="tree.data"
@@ -167,8 +176,8 @@ onMounted(() => {
         <div class="quota-group g-btn" @click="groupHandle"></div>
         <!-- 右侧 -->
         <div class="quota-right" v-if="pageConfig.success">
-          <keep-alive :include="['QuotaList']">
-            <router-view :key="id"></router-view>
+          <keep-alive :include="['QuotaList']" v-if="routeShow">
+            <router-view></router-view>
           </keep-alive>
         </div>
       </div>
