@@ -125,18 +125,28 @@ const getPageParams = () => {
   // 关键词
   const content = ins.$route.query?.content || ''
   const id = ins.$route.params.id || ''
+  // 目录id
+  let catalogIds = ''
   let result = ''
   if (id) {
     result = findElementById(g_tree.value.data, id)
+  } else {
+    result = {
+      ids: []
+    }
+    g_tree.value.data.map((item) => {
+      if (item.ids && item.ids.length) {
+        result.ids.push(...item.ids)
+      }
+    })
   }
-  // 目录id
-  let catalogIds = ''
   if (result) {
     catalogIds = result?.ids.join(',')
   }
+
   return {
     // 目录id
-    catalogIds:catalogIds,
+    catalogIds: catalogIds,
     // 搜索关键词
     chineseName: content
   }
