@@ -1,9 +1,13 @@
 <script setup name="Quota">
 import api from '@/api'
-import { buildTree } from './js/index'
+import { buildTree, addIdsProperty } from './js/index'
 const ins = getCurrentInstance().proxy
 const pageConfig = ref({
-  loading: false
+  loading: false,
+  // 是否完成加载
+  loaded: false,
+  // 是否正常请求到数据
+  success: false
 })
 /**
  * 用刷新routerView
@@ -27,6 +31,8 @@ const tree = ref({
   },
   expand: true
 })
+// 向子元素提供数据
+provide('g_tree', tree)
 /**
  * 展开/收缩elTree
  */
@@ -85,13 +91,15 @@ const catalogManageHandler = () => {
           if (res.data) {
             // 合成elTree的数据
             tree.value.data = res.data.map((item) => {
-              return {
+              let temp = {
                 id: item.id,
                 name: item.name,
                 // 定义目录
                 isDir: true,
                 children: buildTree(item.dataAssetsCatalogVos)
               }
+              addIdsProperty(temp)
+              return temp
             })
             // 如果有id 需要展开指定elTree节点
             if (ins.$route.params.id) {
@@ -119,8 +127,10 @@ const catalogManageHandler = () => {
                 }
               })
             }
+            pageConfig.value.success = true
           } else {
-            tree.value.data=[]
+            tree.value.data = []
+            pageConfig.value.success = false
           }
           resolve(true)
         })
@@ -156,7 +166,7 @@ onMounted(() => {
         </div>
         <div class="quota-group g-btn" @click="groupHandle"></div>
         <!-- 右侧 -->
-        <div class="quota-right">
+        <div class="quota-right" v-if="pageConfig.success">
           <keep-alive :include="['QuotaList']">
             <router-view :key="id"></router-view>
           </keep-alive>

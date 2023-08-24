@@ -1,7 +1,10 @@
 <script setup name="QuotaList">
 import api from '@/api'
-import { shallowRef } from 'vue'
+import { inject, shallowRef } from 'vue'
+import { findElementById } from './js/index'
 const ins = getCurrentInstance().proxy
+// 接收父元素的数据
+const g_tree = inject('g_tree')
 /**
  * 表格的数据
  */
@@ -49,14 +52,14 @@ const baseZjList = {
       },
       {
         label: '指标名称',
-        name: 'chineseName',
+        name: 'chName',
         extend: {
           'show-overflow-tooltip': true
         }
       },
       {
         label: '英文名称',
-        name: 'englishName',
+        name: 'enName',
         extend: {
           'show-overflow-tooltip': true
         }
@@ -85,12 +88,12 @@ const baseZjList = {
     http: {
       url: '/',
       onBefore: (params) => {
-        const folderId = pageParams.value.folderId
+        const catalogIds = pageParams.value.catalogIds
         resetPageParams()
         pageParams.value = {
           ...pageParams.value,
           ...params.data,
-          folderId
+          catalogIds
         }
         getPage()
         return false
@@ -116,50 +119,26 @@ const rZjList = ref(shallowRef(baseZjList))
  * zjList的ref
  */
 const zjListRef = ref(null)
-/**
- * 根据目录id获取指定code
- * @param {*} catalogId
- */
-const getFoldIdByCatalogId = (catalogId) => {
-  return new Promise((resolve) => {
-    if (!zjListRef.value.tableLoading) {
-      zjListRef.value.tableLoading = true
-      ins
-        .$get({
-          url: api.getFoldIdByCatalogId,
-          data: {
-            catalogId
-          }
-        })
-        .then((res) => {
-          zjListRef.value.tableLoading = false
-          if (res.code == 200) {
-            pageParams.value.folderId = res.data
-            getPage()
-          } else {
-            // 如果数据有问题，那么重置表格
-            initTableList()
-          }
-        })
-        .finally(() => {
-          resolve(true)
-        })
-    }
-  })
+const id = ins.$route.params.id || ''
+let catalogIds = ''
+if (id) {
+  let result = findElementById(g_tree.value.data, id)
+  if (result) {
+    catalogIds = result?.ids.join(',')
+  }
 }
+
 const oPageParams = {
   chineseName: '',
   folderId: '',
   currentPage: 1,
-  pageSize: 10
+  pageSize: 10,
+  catalogIds: catalogIds || '',
+  orderColumn: 'createTime',
+  order: 'asc'
 }
 const resetPageParams = () => {
-  pageParams.value = {
-    chineseName: '',
-    folderId: '',
-    currentPage: 1,
-    pageSize: 10
-  }
+  pageParams.value = ref(shallowRef(oPageParams))
 }
 /**
  * 重置表格
@@ -171,7 +150,7 @@ const initTableList = () => {
 /**
  * 响应参数
  */
-const pageParams = ref(oPageParams)
+const pageParams = ref(shallowRef(oPageParams))
 /**
  * 获取表格数据
  */
@@ -187,8 +166,8 @@ const getPage = () => {
         .then((res) => {
           useSafeData(res, { default: { content: [], totalItems: 0 } }).then(
             ({ data, hasError }) => {
-              zjListRef.value.tableData = data.content
-              zjListRef.value.total = data.totalItems
+              zjListRef.value.tableData = data.records
+              zjListRef.value.total = data.total
               if (hasError) {
                 ins.$message({
                   type: 'error',
@@ -206,25 +185,10 @@ const getPage = () => {
   })
 }
 
-/**
- * 初始化
- * @param {*} id
- */
-const init = (id) => {
-  // 如果有id时，需要获取code
-  if (id) {
-    getFoldIdByCatalogId(id)
-  } else {
-    // 否则获取全部
-    getPage()
-  }
-}
 onMounted(() => {
-  // 判断目录id和搜索关键词
-  const id = ins.$route.params.id || ''
   const content = ins.$route.query?.content || ''
   pageParams.value.chineseName = content
-  init(id)
+  getPage()
 })
 </script>
 <template>
